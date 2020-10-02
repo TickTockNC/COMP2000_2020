@@ -1,17 +1,22 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Actor {
     Color colour;
     Cell loc;
-    ArrayList<Polygon> display;
+    ArrayList<Polygon> display; 
     MoveStrategy strat;
     float redness;
     int turns;
     int moves;
-
+    int range;
+      
     public void paint(Graphics g){
-        for(Polygon p: display){
+        Iterator<Polygon> iter = display.iterator(); 
+        while (iter.hasNext()){
+        // for(Polygon p: display){
+            Polygon p = iter.next();
             g.setColor(new Color(redness, 0f, 1f-redness));
             g.fillPolygon(p);
             g.setColor(Color.GRAY);
@@ -33,5 +38,12 @@ public abstract class Actor {
             this.strat = new LeftMostMove();
         }
         setPoly();
+    }
+
+    public void makeRedder(float amt){
+        redness = redness + amt;
+        if(redness > 1.0f){
+            redness = 1.0f;
+        }
     }
 }
